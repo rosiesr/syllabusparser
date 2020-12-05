@@ -1,0 +1,2 @@
+FLASK_APP=parser.py
+FLASK_ENV=development
