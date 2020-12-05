@@ -14,7 +14,7 @@ def parse(file):
     out = {}
     for line in file:
         if "-" in str(line):
-            linelist = line.split(" — ")
+            linelist = line.split(" - ")
             work = linelist[0]
             date = linelist[1]
             out.update({work:date[:len(date) - 1]})
