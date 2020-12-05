@@ -1,2 +1,2 @@
-FLASK_APP=parser.py
+FLASK_APP=main.py
 FLASK_ENV=development
