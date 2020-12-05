@@ -13,7 +13,7 @@ f = open("CS 250 Syllabus.txt", "r")
 def parse(file):
     out = {}
     for line in file:
-        if "—" in str(line):
+        if "-" in str(line):
             linelist = line.split(" — ")
             work = linelist[0]
             date = linelist[1]
