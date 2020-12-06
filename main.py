@@ -29,9 +29,14 @@ def upload_file():
 		if file and allowed_file(file.filename):
 			filename = secure_filename(file.filename)
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-			path = '/Users/danielbolja/Documents/GitHub/syllabusparser/Uploads/' + filename
+			path = '/Users/rosierothschild/syllabusparser/Uploads/' + filename
 			pfile = open(path, 'r')
-			flash(parse(pfile))
+			parse_dict = parse(pfile)
+			parse_array = []
+			for key, value in parse_dict.items():
+				parse_array.append(key + ": " + value)
+			for assignment in parse_array:
+				flash(assignment)
 			#print(parse(file)) idk how to display this
 			return redirect('/')
 		else:

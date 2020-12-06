@@ -20,7 +20,7 @@ def parse(file):
             datetemp = dt.datetime.strptime(date, "%m/%d/%Y")
             datestr = datetemp.strftime("%m/%d/%Y")
             out.update({work:datestr})
-    return str(out)
+    return out
 
 if __name__ == "__main__":
     print(parse(f))
