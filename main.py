@@ -1,9 +1,10 @@
 import os
 #import magic
 import urllib.request
-from app import app
+from app import app, UPLOAD_FOLDER
 from flask import Flask, flash, request, redirect, render_template
 from werkzeug.utils import secure_filename
+from syllabus import parsetxt, parsepdf, pdfparser
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
@@ -28,7 +29,18 @@ def upload_file():
 		if file and allowed_file(file.filename):
 			filename = secure_filename(file.filename)
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-			flash('File successfully uploaded')
+			path = UPLOAD_FOLDER + filename
+			pfile = open(path, 'r')
+			parse_dict = {}
+			if 'txt' in path:
+				parse_dict = parsetxt(pfile)
+			if 'pdf' in path:
+				parse_dict = parsepdf(pdfparser(filename))
+			parse_array = []
+			for key, value in parse_dict.items():
+				parse_array.append(key + ": " + value)
+			for assignment in parse_array:
+				flash(assignment)
 			return redirect('/')
 		else:
 			flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif')
