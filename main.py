@@ -95,8 +95,14 @@ def authorize():
 		event_result = service.events().insert(calendarId='primary',
 			body={
 				'summary': key,
-				'start.date': value,
-				'end.date': value,
+				'start': {
+					'date': value,
+					'timeZone' :'America/Los_Angeles',
+				},
+				'end': {
+					'date': value,
+					'timeZone' : 'America/Los_Angeles',
+				},
 				'reminders': {
 					"useDefault": True,
 				}
