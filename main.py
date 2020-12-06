@@ -4,7 +4,7 @@ import urllib.request
 from app import app, UPLOAD_FOLDER
 from flask import Flask, flash, request, redirect, render_template
 from werkzeug.utils import secure_filename
-from syllabus import parse
+from syllabus import parsetxt
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
