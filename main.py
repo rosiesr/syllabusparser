@@ -5,8 +5,11 @@ from app import app, UPLOAD_FOLDER
 from flask import Flask, flash, request, redirect, render_template
 from werkzeug.utils import secure_filename
 from syllabus import parsetxt, parsepdf, pdfparser
+from gcal import gcal
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
+schedule=False
 
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -17,6 +20,7 @@ def upload_form():
 
 @app.route('/', methods=['POST'])
 def upload_file():
+	schedule = False
 	if request.method == 'POST':
         # check if the post request has the file part
 		if 'file' not in request.files:
@@ -27,6 +31,7 @@ def upload_file():
 			flash('No file selected for uploading')
 			return redirect(request.url)
 		if file and allowed_file(file.filename):
+			schedule = True
 			filename = secure_filename(file.filename)
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 			path = UPLOAD_FOLDER + filename
@@ -41,6 +46,7 @@ def upload_file():
 				parse_array.append(key + ": " + value)
 			for assignment in parse_array:
 				flash(assignment)
+			gcal()
 			return redirect('/')
 		else:
 			flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif')
