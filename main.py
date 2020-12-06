@@ -47,11 +47,36 @@ def upload_file():
 				parse_array.append(key + ": " + value)
 			for assignment in parse_array:
 				flash(assignment)
-			main()
-			return redirect('/')
+			return redirect('/authorize')
 		else:
 			flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif')
 			return redirect(request.url)
+
+@app.route('/authorize')
+def authorize():
+	creds = None
+	# The file token.pickle stores the user's access and refresh tokens, and is
+	# created automatically when the authorization flow completes for the first
+	# time.
+	if os.path.exists('token.pickle'):
+		with open('token.pickle', 'rb') as token:
+			creds = pickle.load(token)
+	# If there are no (valid) credentials available, let the user log in.
+	if not creds or not creds.valid:
+		if creds and creds.expired and creds.refresh_token:
+			creds.refresh(Request())
+		else:
+			flow = InstalledAppFlow.from_client_secrets_file(
+				'credentials.json', SCOPES)
+			creds = flow.run_local_server(port=0)
+
+		# Save the credentials for the next run
+		with open('token.pickle', 'wb') as token:
+			pickle.dump(creds, token)
+	
+	service = build('calendar', 'v3', credentials=creds)
+	#postGcal("This is a test", "2021-04-20", service)
+	return service
 
 if __name__ == "__main__":
     app.run()
