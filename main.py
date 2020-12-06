@@ -116,7 +116,7 @@ def authorize():
 	print("starts at: ", event_result['start']['dateTime'])
 	print("ends at: ", event_result['end']['dateTime'])
 	"""
-	return render_template('success.html', parse=parse_dict)
+	return render_template('success.html')
 
 if __name__ == "__main__":
     app.run()
