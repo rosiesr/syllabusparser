@@ -32,6 +32,7 @@ def get_calendar_service():
            pickle.dump(creds, token)
 
    service = build('calendar', 'v3', credentials=creds)
+   postGcal("This is a test", "2020-04-20", service)
    return service
 
 '''
@@ -73,7 +74,7 @@ def main():
 
 if __name__ == '__main__':
     main()
-
+'''
 def postGcal(work, datestr, service):
     event = {
         'summary': work,
@@ -86,4 +87,3 @@ def postGcal(work, datestr, service):
     event = service.events().insert(calendarId='primary', body=event).execute()
     print('Event created: %s' % (event.get('htmlLink')))
     return {"body": "success"}
-'''
