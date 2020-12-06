@@ -31,7 +31,7 @@ def upload_file():
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 			path = UPLOAD_FOLDER + filename
 			pfile = open(path, 'r')
-			parse_dict = parse(pfile)
+			parse_dict = parsetxt(pfile)
 			parse_array = []
 			for key, value in parse_dict.items():
 				parse_array.append(key + ": " + value)
