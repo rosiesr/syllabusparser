@@ -89,15 +89,18 @@ def authorize():
 	tomorrow = datetime(d.year, d.month, d.day, 10)+timedelta(days=1)
 	start = tomorrow.isoformat()
 	end = (tomorrow + timedelta(hours=1)).isoformat()
-
-	event_result = service.events().insert(calendarId='primary',
-		body={
-			"summary": 'Automating calendar',
-			"description": 'This is a tutorial example of automating google calendar with python',
-			"start": {"dateTime": start, "timeZone": 'Asia/Kolkata'},
-			"end": {"dateTime": end, "timeZone": 'Asia/Kolkata'},
-		}
-	).execute()
+	for i in len(parse_array) {
+		event_result = service.events().insert(calendarId='primary',
+			body={
+				"summary": key;
+				"start.date": value
+				"end.date": value
+				"reminders": {
+					"useDefault": True,
+				}
+			}
+		).execute()
+	}
 
 	print("created event")
 	print("id: ", event_result['id'])
