@@ -93,9 +93,9 @@ def authorize():
 	for key, value in parse_dict.items():
 		event_result = service.events().insert(calendarId='primary',
 			body={
-				'summary': key
-				'start.date': value
-				'end.date': value
+				'summary': key,
+				'start.date': value,
+				'end.date': value,
 				'reminders': {
 					"useDefault": True,
 				}
