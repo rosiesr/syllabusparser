@@ -4,7 +4,7 @@ import urllib.request
 from app import app, UPLOAD_FOLDER
 from flask import Flask, flash, request, redirect, render_template
 from werkzeug.utils import secure_filename
-from syllabus import parsetxt
+from syllabus import parsetxt, parsepdf, pdfparser
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
@@ -31,13 +31,16 @@ def upload_file():
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 			path = UPLOAD_FOLDER + filename
 			pfile = open(path, 'r')
-			parse_dict = parsetxt(pfile)
+			parse_dict = {}
+			if 'txt' in path:
+				parse_dict = parsetxt(pfile)
+			if 'pdf' in path:
+				parse_dict = parsepdf(pdfparser(filename))
 			parse_array = []
 			for key, value in parse_dict.items():
 				parse_array.append(key + ": " + value)
 			for assignment in parse_array:
 				flash(assignment)
-			#print(parse(file)) idk how to display this
 			return redirect('/')
 		else:
 			flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif')
