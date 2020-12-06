@@ -55,7 +55,7 @@ def parsepdf(file):
             work = linelist[0]
             date = linelist[1][:len(linelist[1]) - 1]
             datetemp = dt.datetime.strptime(date, "%m/%d/%Y")
-            datestr = datetemp.strftime("%m/%d/%Y")
+            datestr = datetemp.strftime("%Y-%m-%d")
             out.update({work:datestr})
     return out
 
