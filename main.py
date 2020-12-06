@@ -1,6 +1,6 @@
 import os
 #import magic
-import datetime
+from datetime import datetime, timedelta
 import pickle
 import os.path
 import urllib.request
@@ -104,7 +104,7 @@ def authorize():
 	print("summary: ", event_result['summary'])
 	print("starts at: ", event_result['start']['dateTime'])
 	print("ends at: ", event_result['end']['dateTime'])
-	return service
+	return render_template('success.html')
 
 if __name__ == "__main__":
     app.run()
