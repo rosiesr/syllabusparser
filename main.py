@@ -5,7 +5,7 @@ from app import app, UPLOAD_FOLDER
 from flask import Flask, flash, request, redirect, render_template
 from werkzeug.utils import secure_filename
 from syllabus import parsetxt, parsepdf, pdfparser
-from gcal import gcal
+from gcal import get_calendar_service, postGcal
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
@@ -46,7 +46,7 @@ def upload_file():
 				parse_array.append(key + ": " + value)
 			for assignment in parse_array:
 				flash(assignment)
-			gcal()
+			postGcal("test assignment", "2021-12-07", get_calendar_service())
 			return redirect('/')
 		else:
 			flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif')
