@@ -30,7 +30,7 @@ def upload_file():
 			filename = secure_filename(file.filename)
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 			flash('File successfully uploaded')
-			flash(print(parse(file)))
+			#print(parse(file)) idk how to display this
 			return redirect('/')
 		else:
 			flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif')
