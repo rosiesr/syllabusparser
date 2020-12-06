@@ -84,23 +84,24 @@ def authorize():
 	service = build('calendar', 'v3', credentials=creds)
 	
 	#service = get_calendar_service()
-
+	"""
 	d = datetime.now().date()
 	tomorrow = datetime(d.year, d.month, d.day, 10)+timedelta(days=1)
 	start = tomorrow.isoformat()
 	end = (tomorrow + timedelta(hours=1)).isoformat()
-	for i in len(parse_array) {
+	"""
+	for key, value in parse_dict.items():
 		event_result = service.events().insert(calendarId='primary',
 			body={
-				"summary": key;
-				"start.date": value
-				"end.date": value
-				"reminders": {
+				'summary': key
+				'start.date': value
+				'end.date': value
+				'reminders': {
 					"useDefault": True,
 				}
 			}
 		).execute()
-	}
+
 
 	print("created event")
 	print("id: ", event_result['id'])
