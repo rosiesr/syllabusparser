@@ -1,3 +1,4 @@
+'''
 import datetime
 import pickle
 import os.path
@@ -74,7 +75,7 @@ def gcal():
 
 if __name__ == '__main__':
     main()
-'''
+
 def postGcal(work, datestr, service):
     event = {
         'summary': work,
