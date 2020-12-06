@@ -29,7 +29,9 @@ def upload_file():
 		if file and allowed_file(file.filename):
 			filename = secure_filename(file.filename)
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-			flash('File successfully uploaded')
+			path = '/Users/danielbolja/Documents/GitHub/syllabusparser/Uploads/' + filename
+			pfile = open(path, 'r')
+			flash(parse(pfile))
 			#print(parse(file)) idk how to display this
 			return redirect('/')
 		else:
