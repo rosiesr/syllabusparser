@@ -15,6 +15,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+parse_dict = {}
 
 schedule=False
 
@@ -27,7 +28,7 @@ def upload_form():
 
 @app.route('/', methods=['POST'])
 def upload_file():
-	schedule = False
+	#schedule = False
 	if request.method == 'POST':
         # check if the post request has the file part
 		if 'file' not in request.files:
@@ -43,7 +44,7 @@ def upload_file():
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 			path = UPLOAD_FOLDER + filename
 			pfile = open(path, 'r')
-			parse_dict = {}
+			global parse_dict
 			if 'txt' in path:
 				parse_dict = parsetxt(pfile)
 			if 'pdf' in path:
@@ -102,12 +103,13 @@ def authorize():
 			}
 		).execute()
 
-
+	"""
 	print("created event")
 	print("id: ", event_result['id'])
 	print("summary: ", event_result['summary'])
 	print("starts at: ", event_result['start']['dateTime'])
 	print("ends at: ", event_result['end']['dateTime'])
+	"""
 	return render_template('success.html')
 
 if __name__ == "__main__":
