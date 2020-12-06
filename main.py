@@ -1,12 +1,18 @@
 import os
 #import magic
+import datetime
+import pickle
+import os.path
 import urllib.request
 from app import app, UPLOAD_FOLDER
 from flask import Flask, flash, request, redirect, render_template
 from werkzeug.utils import secure_filename
 from syllabus import parsetxt, parsepdf, pdfparser
-from gcal import get_calendar_service, postGcal
-from gcalevent import main
+#from gcal import get_calendar_service, postGcal
+#from gcalevent import main
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
@@ -54,6 +60,7 @@ def upload_file():
 
 @app.route('/authorize')
 def authorize():
+	SCOPES = ['https://www.googleapis.com/auth/calendar']
 	creds = None
 	# The file token.pickle stores the user's access and refresh tokens, and is
 	# created automatically when the authorization flow completes for the first
@@ -70,12 +77,33 @@ def authorize():
 				'credentials.json', SCOPES)
 			creds = flow.run_local_server(port=0)
 
-		# Save the credentials for the next run
-		with open('token.pickle', 'wb') as token:
-			pickle.dump(creds, token)
-	
+	# Save the credentials for the next run
+	with open('token.pickle', 'wb') as token:
+		pickle.dump(creds, token)
+
 	service = build('calendar', 'v3', credentials=creds)
-	#postGcal("This is a test", "2021-04-20", service)
+	
+	#service = get_calendar_service()
+
+	d = datetime.now().date()
+	tomorrow = datetime(d.year, d.month, d.day, 10)+timedelta(days=1)
+	start = tomorrow.isoformat()
+	end = (tomorrow + timedelta(hours=1)).isoformat()
+
+	event_result = service.events().insert(calendarId='primary',
+		body={
+			"summary": 'Automating calendar',
+			"description": 'This is a tutorial example of automating google calendar with python',
+			"start": {"dateTime": start, "timeZone": 'Asia/Kolkata'},
+			"end": {"dateTime": end, "timeZone": 'Asia/Kolkata'},
+		}
+	).execute()
+
+	print("created event")
+	print("id: ", event_result['id'])
+	print("summary: ", event_result['summary'])
+	print("starts at: ", event_result['start']['dateTime'])
+	print("ends at: ", event_result['end']['dateTime'])
 	return service
 
 if __name__ == "__main__":
