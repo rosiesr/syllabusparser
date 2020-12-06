@@ -1,7 +1,7 @@
 import os
 #import magic
 import urllib.request
-from app import app
+from app import app, UPLOAD_FOLDER
 from flask import Flask, flash, request, redirect, render_template
 from werkzeug.utils import secure_filename
 from syllabus import parse
@@ -29,7 +29,7 @@ def upload_file():
 		if file and allowed_file(file.filename):
 			filename = secure_filename(file.filename)
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-			path = '/Users/rosierothschild/syllabusparser/Uploads/' + filename
+			path = UPLOAD_FOLDER + filename
 			pfile = open(path, 'r')
 			parse_dict = parse(pfile)
 			parse_array = []
