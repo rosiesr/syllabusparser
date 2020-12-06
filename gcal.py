@@ -8,7 +8,7 @@ from google.auth.transport.requests import Request
 
 #service = ""
 # If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 
 def gcal():
